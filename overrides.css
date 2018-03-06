@@ -4,24 +4,24 @@
 
 @font-face {
     font-family: Platform Web;
-    src: url("/fonts/Platform-Bold-Web.eot");
-    src: url("/fonts/Platform-Bold-Web.eot?#iefix") format("embedded-opentype"), url("/fonts/Platform-Bold-Web.woff2") format("woff2"), url("/fonts/Platform-Bold-Web.woff") format("woff");
+    src: url("fonts/Platform-Bold-Web.eot");
+    src: url("fonts/Platform-Bold-Web.eot?#iefix") format("embedded-opentype"), url("fonts/Platform-Bold-Web.woff2") format("woff2"), url("fonts/Platform-Bold-Web.woff") format("woff");
     font-weight: 700;
     font-style: normal;
     font-stretch: normal;
 }
 @font-face {
     font-family: Platform Web;
-    src: url("/fonts/Platform-Medium-Web.eot");
-    src: url("/fonts/Platform-Medium-Web.eot?#iefix") format("embedded-opentype"), url("/fonts/Platform-Medium-Web.woff2") format("woff2"), url("/fonts/Platform-Medium-Web.woff") format("woff");
+    src: url("fonts/Platform-Medium-Web.eot");
+    src: url("fonts/Platform-Medium-Web.eot?#iefix") format("embedded-opentype"), url("fonts/Platform-Medium-Web.woff2") format("woff2"), url("fonts/Platform-Medium-Web.woff") format("woff");
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
 }
 @font-face {
     font-family: Platform Web;
-    src: url("/fonts/Platform-Light-Web.eot");
-    src: url("/fonts/Platform-Light-Web.eot?#iefix") format("embedded-opentype"), url("/fonts/Platform-Light-Web.woff2") format("woff2"), url("/fonts/Platform-Light-Web.woff") format("woff");
+    src: url("fonts/Platform-Light-Web.eot");
+    src: url("fonts/Platform-Light-Web.eot?#iefix") format("embedded-opentype"), url("fonts/Platform-Light-Web.woff2") format("woff2"), url("fonts/Platform-Light-Web.woff") format("woff");
     font-weight: 300;
     font-style: normal;
     font-stretch: normal;
