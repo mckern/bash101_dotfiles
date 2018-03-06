@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tech Talk</title>
+    <meta charset="utf-8">
+    <link rel="icon" type="image/png" href="/static/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/overrides.css" />
+  </head>
+  <body class="preload">
+    <textarea id="source">
+class: center, middle
+
+class: title,slide-title
+
+<div class="titles">
+<h1>Bash 101</h1>
+<h2>What are dot files?</h2>
+</div>
+<span class="whoami">
+  <span class="name">Ryan McKern | bashochist</span>
+  <span class="twitter">@the_mckern</span>
+</span>
+<div class="title-image"><img width="100%" height="100%" src="img/bash-logo.svg"></div>
+
+???
+
+Hi everyone. I'm Ryan McKern, and I want to talk to you about Bash, and using dot files to configure Bash any time you log in or out of a terminal. I'll briefly skim over some terminology and history, talk about how Bash is configured, and sprinkle some short demos throughout. I'll throw everything I talk about up on GitHub after tonight, in case anyone wants to reference the links from my slides or the code demos that I fumble through.
+
+---
+
+class: dumbterminal, background-contain, background-black
+
+???
+
+Modern UNIX clones like Linux and macOS are SUPER ubiquitous nowadays but despite almost 50 years of evolution, they're all ultimately derived from vintage AT&T Unix. And that means that they've inherited the terminal as a first-class interface for interacting with a computer. And if we're using a terminal, then we're using a shell.
+
+---
+
+## What's a Shell?
+
+> Although most users think of the shell as an interactive command interpreter, it is really a programming language in which each statement runs a command.
+
+Brian Kernighan & Rob Pike<br>
+[_The UNIX Programming Environment_](https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/The_Unix_Programming_Environment.html), 1984
+
+???
+
+A shell hides the details of the underlying operating system and manages the technical minutia of the operating system kernel interface; think of it as the lowest level between you and the computer that you can stand to work at. This quote explains one of the things that I think is great about shells: the commands you run are really interactive programming. You're writing shell scripts every time you use the terminal.
+
+---
+
+class: background-cover, computer-cat, center, background-black
+
+# Digression
+
+???
+
+Before I charge forward, I wanted to take a second to talk about interactive and non-interactive shells. An interactive shell is literally that: a shell you're directly interacting with. The alternative is a non-interactive shell, which is what runs whenever you run a shell script as an executable command and dot files aren't automatically loaded by non-interactive shells. I'm only going to talk about interactive shells today.
+
+---
+
+## What's a dot file?
+
+* A file whose name begins with a literal `.` character, <br> e.g. `.bash_profile`, `.now-you-see-me.sh`
+* The `.` means "hide this file unless I ask to see it"
+* Used by things besides Bash <br> e.g. `git`, `ssh`, `vim`
+
+???
+
+Dot files are just files whose names start with a period. The period tells programs like `ls` to treat the file as a hidden file. This is an old, old convention and it's deeply baked into virtually everything in UNIX-like operating systems -- in our case, we care about some specific dot files that Bash will automatically look for when you log in or out of the terminal.
+
+---
+
+class: center, middle
+
+# Bash's dot files are (usually) little Bash programs that configure Bash
+
+???
+
+Bash's dot files are actually shell scripts that are executed to change the environment of an interactive terminal before you start using it. That means that anything you can do in the terminal, you can do in a dot file.
+
+---
+
+## The (abridged) dot file load order
+
+```bash
+if test -f /etc/profile; then
+  source /etc/profile
+fi
+
+if test -f ~/.bash_profile; then
+  source ~/.bash_profile
+else
+  if test -f ~/.bash_login; then
+    source ~/.bash_login
+  elif test -f ~/.profile; then
+    source ~/.profile
+  fi
+fi
+```
+
+???
+
+Out of the box, Bash will attempt to load a number of files any time you start a new login session. The load order for these files is deterministic and it looks a lot like this. If you don't use Bash often, `test -f` means "test if this file exists", and "source" means "evaluate the code in this file in the current programmatic context" -- it's basically like calling "require" or "include" in other languages you might have used.
+
+You may have some combination of these files on your computer -- some of them may have been provided by your OS vendor, or maybe you put some of them there. Every UNIX-like OS will have slightly different conventions for which files are in use out of the box, and sometimes those files load more files than you see here. That's OK! We're only talking about the stuff in your home directory today.
+
+---
+
+## So what can you do with dot files?
+### Write functions!
+
+```bash
+curl_headers() (
+  \curl -s -i -L -I "${1}"
+)
+```
+
+???
+
+Since Bash is an interactive programming language, that means that one of the tools at our disposal is functions. Bash functions aren't quite as powerful as they are in some languages -- they can can only return "true" or "false". But they can emit output to Standard Out or Standard Error, which can be captured and used by the shell, and that makes them useful for writing reusable snippets and tools. Here's an example that just wraps up a bunch of common curl options (silent, include, location, and head), runs it in a subshell, and prints out all of the headers returned by the request. If you've ever had to maintain something like a package repository server, this is an invaluable function.
+
+Demo
+1. open terminal
+2. paste in function
+3. run `curl_headers http://donutjs.club/`
+
+---
+
+## So what can you do with dot files?
+### Set environment variables!
+
+```bash
+AWSAccessKeyId="glazed-vanilla-yeast-donut"
+AWSSecretKey="creme-brûlée-donut"
+```
+
+???
+
+Environment variables are a super common way to configure lots of things besides your shell. If you've ever built a 12-factor style web application, you've definitely use environment variables. Unrelated: I don't know if anyone here has ever been to a place called The Donut Plant in New York, but these are two of their fantastic donuts. What they are not is useful AWS credentials.
+
+Back on topic, Have you ever taken a moment to actually look at how many environment variables are defined in your shell session at any given time? Some folks might check the output of the command `env` once in a while but that's an abbreviated view of your environment. To get all of the gnarly details, you want to run the command `printenv`. `printenv` will show you all of the defined variables in your current session:
+
+1. Open terminal
+2. run `set`
+4. run `set | grep BASH_ | sort`
+
+---
+
+## So what can you do with dot files?
+### Customize shell behavior!
+
+```bash
+HISTCONTROL="ignorespace:erasedups"
+PATH="/opt/donut/bin:${PATH}"
+
+shopt -s checkwinsize
+shopt -s extglob
+
+if test -n "$BASH" && test -f ~/.bashrc; then
+  source ~/.bashrc
+fi
+```
+
+???
+
+All of Bash's behavior is controlled with environment variables, `set` flags, and shell options. Shell options are set and viewed using the `shopt` command.
+
+1. Open terminal
+2. explain the difference between moving to directories in Bash and in the classsic Windows command line (e.g. using `cd` vs. just typing a bare directory name), and point out that Bash can replicate Windows' behavior here
+3. run `shopt | more`
+4. point out `autocd` and explain what it'll do
+5. run `shopt -s autocd`
+7. show what `autocd` does when enabled
+8. `cd ~` and `shopt -u autocd`
+
+---
+
+## So what can you do with dot files?
+### Customize your prompt!
+
+<code class="remark-code">
+  <span style="color:#ffbad2;">[</span><span style="color:#feaeca;">d</span><span style="color:#fda1c1;">o</span><span style="color:#fc95b9;">n</span><span style="color:#fc88b1;">u</span><span style="color:#fb7ca9;">t</span><span style="color:#fa70a0;">@</span><span style="color:#f96398;">c</span><span style="color:#f85790;">h</span><span style="color:#f74a88;">o</span><span style="color:#f63e7f;">c</span><span style="color:#f53277;">o</span><span style="color:#f5256f;">l</span><span style="color:#f41967;">a</span><span style="color:#f30c5e;">t</span><span style="color:#f20056;">e</span><span style="color:#ef0f5d;">-</span><span style="color:#ec1e63;">s</span><span style="color:#e92c6a;">p</span><span style="color:#e63b71;">r</span><span style="color:#e34a78;">i</span><span style="color:#e0597e;">n</span><span style="color:#dd6885;">k</span><span style="color:#da768c;">l</span><span style="color:#d78592;">e</span><span style="color:#d49499;">s</span><span style="color:#d1a3a0;"> </span><span style="color:#ceb1a7;">~</span><span style="color:#cbc0ad;">]</span><span style="color:#c8cfb4;">$</span>
+</code>
+
+???
+
+So now I'm going to show you how to customize a Bash prompt. The prompt template is defined using an environment variable, like most behavior in Bash. This means that we can use all of the tricks I just talked about to make more functional, better looking prompts.
+
+While this is maybe the most useful thing I want to share with you, this is definitely the gnarliest because we're going to wrestle with Bash's Prompt Escape Sequences and they are *not* intuitive.
+
+---
+
+## Some Common Prompt Escape Sequences
+
+```
+\d     the date in "Tue Jan 31" format
+\h     the short hostname
+\n     a literal newline
+\t     the current time in 24-hour HH:MM:SS format
+\T     the current time in 12-hour HH:MM:SS format
+\@     the current time in 12-hour am/pm format
+\u     the username of the current user
+\w     the full current working directory
+\W     the basename of the current working direc­tory
+\$     a literal # if the UID is 0, else a literal $
+\\     a literal backslash
+\[     begin a sequence of non-printing characters
+\]     end a sequence of non-printing characters
+```
+
+???
+
+Prompt escape sequences are (conceptually) another kind of special variable that Bash only interpolates in the context of the Prompt template variables. These are the prompt escape sequences you're most likely to use but it's not all of them. The Bash manual has a complete list, and many prompt generator tools expose all of the possible options.
+
+The most common boring Bash prompt just uses `\s` and `\v` to expose the name of the shell and its version -- not super interesting, and not super useful. We want to make a prompt that's more useful than this, but to do that we're doing to need to use some non-printing characters.
+
+---
+
+## What are non-printing characters?
+
+* ANSI escape codes
+* Usually used for <span style="color:#00cb33;">c</span><span style="color:#00c955;">o</span><span style="color:#00c677;">l</span><span style="color:#00c499;">o</span><span style="color:#00c1bb;">r</span><span style="color:#00bfdd;"> </span><span style="color:#00bcff;">c</span><span style="color:#0096ff;">o</span><span style="color:#0071ff;">d</span><span style="color:#004bff;">e</span><span style="color:#0026ff;">s</span><span style="color:#0000ff;"> </span><span style="color:#1500ff;">a</span><span style="color:#2b00ff;">n</span><span style="color:#4000ff;">d</span><span style="color:#5500ff;"></span> <strong><span style="color:#6b00ff;">f</span><span style="color:#8000ff;">o</span><span style="color:#9900cc;">n</span><span style="color:#b30099;">t</span><span style="color:#cc0066;"> </span><span style="color:#e60033;">w</span><span style="color:#ff0000;">e</span><span style="color:#ff1800;">i</span><span style="color:#ff3100;">g</span><span style="color:#ff4900;">h</span><span style="color:#ff6100;">t</span><span style="color:#ff7a00;">s</span></strong>
+* Also used to move the cursor around the screen
+
+???
+
+"Non-printing characters" really means "send terminal control commands directly to the terminal instead of rendering them" and it's how we get color into our prompt. They're kind of arcane because they date to a very, very different era when we still used clunky hardware terminals to connect to a centralized UNIX computer located somewhere else. Since they're arcane, what most folks do is use a tool like the command `tput` to generate a list mapping the codes to more meaningful variable names. Everything I've talked about will be in a GitHub repo shortly, including links to resources like the ANSI color map I'm using.
+
+---
+
+class: center, middle
+
+# OK, let's build a new `${PS1}`
+
+???
+
+1. open terminal
+2. start a new login subshell
+3. begin constructing a new PS1 using color codes from tput (colors.sh)
+4. if time isn't tight, then show how to use a pre-loaded script for git commit status in the prompt
+
+---
+
+## Hey, here's some tools to help make customizing your shell and writing shell scripts easier
+
+* Shellcheck (https://www.shellcheck.net)
+* EZPrompt (http://ezprompt.net)
+* Sensible Bash (https://github.com/mrzool/bash-sensible)
+* Bash-it (https://github.com/Bash-it/bash-it)
+* Bash Wiki: Dot Files (http://mywiki.wooledge.org/DotFiles)
+
+???
+
+Since Bash is a programming language, there's a whole wealth of programming tools for it. Here's a brief smattering of tools I used while constructing this talk: 
+
+- Shellcheck is a static analysis tool for shell scripts, which will usually let you know if you did something that might be dangerous
+- EZPrompt is an online drag-and-drop PS1 generator. It's really handy for working out new prompts without accidentally borking yours so bad you have to start from scratch.
+- Sensible Bash is a by-the-books checklist of sane, safe defaults for Bash. It's an excellent reference.
+- Bash-it, on the other hand, is all bells and whistles. It's a port of features from a framework called "oh my zsh", which is for a programmer's shell called `zsh`.
+- The Bash Wiki is deep reference source for Bash, and I highly recommend starting there if you really want to dive deep into how to solve problems with shell scripts. This particular link is where I sourced things like the default Bash initialization profile load order.
+
+These are just a smattering of what's out there. Bash is an old shell and old tools accrue ecosystems around themselves much the same way planets are formed.
+
+---
+
+class: background-baby-blue, background-lower-left, top, center, penguin
+
+# Thanks for coming!
+
+You're wonderful. Have a donut!
+
+<span class="twitter goodbye">@the_mckern</span>
+<span class="github goodbye">mckern</span>
+
+
+<div class="tabbycats">Tuxedo Bird courtesy <a href="http://tabbycats.club/" class="tabbycats-bold">Tabby Cat</a></div>
+
+    </textarea>
+    <script type="text/javascript" src="/static/remark.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML&delayStartupUntil=configured"></script>
+    <script type="text/javascript" src="/static/script.js"></script>
+  </body>
+</html>

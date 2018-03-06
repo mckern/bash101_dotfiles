@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css?family=Asap:400,400i,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&subset=latin');
+
+@font-face {
+    font-family: Platform Web;
+    src: url("/fonts/Platform-Bold-Web.eot");
+    src: url("/fonts/Platform-Bold-Web.eot?#iefix") format("embedded-opentype"), url("/fonts/Platform-Bold-Web.woff2") format("woff2"), url("/fonts/Platform-Bold-Web.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+}
+@font-face {
+    font-family: Platform Web;
+    src: url("/fonts/Platform-Medium-Web.eot");
+    src: url("/fonts/Platform-Medium-Web.eot?#iefix") format("embedded-opentype"), url("/fonts/Platform-Medium-Web.woff2") format("woff2"), url("/fonts/Platform-Medium-Web.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+}
+@font-face {
+    font-family: Platform Web;
+    src: url("/fonts/Platform-Light-Web.eot");
+    src: url("/fonts/Platform-Light-Web.eot?#iefix") format("embedded-opentype"), url("/fonts/Platform-Light-Web.woff2") format("woff2"), url("/fonts/Platform-Light-Web.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+}
+
+
+body {
+  font-family: Asap, -apple-system, "Helvetica Neue", sans-serif;
+  font-variant-ligatures: none;
+}
+
+blockquote {
+  font-size: 1.1em;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.80);
+  border-left: .25em rgba(0, 0, 0, 0.25) solid;
+  padding-left: 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Asap, -apple-system, "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+.title h1 {
+  font-size: 3.0em !important;
+  margin: 0;
+  padding: 0;
+}
+
+.title h2 {
+  font-size: 2.0em !important;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+
+h1 code {
+  font-size: inherit !important;
+}
+
+h2 {
+  font-size: 1.35em;
+}
+
+h3, h4, h5, h6 {
+  font-weight: 500;
+}
+
+h3 {
+  padding: 0.75em 0 0;
+  font-size: 1.10em;
+}
+
+h4 {
+  font-size: 1.10em;
+}
+
+h5 {
+  font-size: 0.95em;
+}
+
+h6 {
+  font-size: .80em;
+}
+
+a, .entry-content a:visited {
+  color: #428bca;
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+p, ul li, ol li {
+  line-height: 1.5em;
+}
+
+li ul li {
+  list-style: none;
+}
+
+.textleft {
+  text-align: left;
+}
+
+.textright {
+  text-align: right;
+}
+
+.textcenter {
+  text-align: center;
+}
+
+div.alignleft, span.alignleft, img.alignleft {
+  float: left;
+  margin: .25em 1.25em 0 0;
+}
+
+div.alignright, span.alignright, img.alignright {
+  float: right;
+  margin: 5px 0 15px 15px;
+}
+
+div.aligncenter, span.aligncenter, img.aligncenter {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Tech Talk Specific */
+
+.small {
+  font-size: 0.75em;
+}
+
+div.title-image {
+  width: 35%;
+  display: inline-block;
+  position: absolute;
+  right: 2.3em;
+  bottom: 1em;
+}
+
+span.whoami {
+  display: inline-block;
+  padding:  0.5em 0;
+  margin: 0;
+  position: absolute;
+  bottom: 1em;
+  text-align: left;
+}
+
+.whoami span {
+  display: block;
+  font-size: 1.1em;
+}
+
+.whoami span.name {
+  display: block;
+}
+
+span.goodbye  {
+  display: table;
+  text-align: left;
+  background-size: 1.2em;
+  background-position: left 65%;
+  background-repeat: no-repeat;
+  padding-left: 1.30em;
+  margin: 0.25em auto;
+}
+
+span.github.goodbye {
+  background-image: url(img/github-black.svg);
+}
+
+span.goodbye.twitter {
+  background-image: url(img/twitter-black.png);
+}
+
+.whoami span.twitter {
+  background: url(img/twitter-blue.png) no-repeat left center;
+  background-size: 1em;
+  padding-left:  1.25em;
+  display: inline-block;
+}
+
+.background-black {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.background-baby-blue {
+  background-color: #abc6ec !important;
+}
+
+.background-black .remark-slide-number {
+    opacity: 0.2;
+}
+
+.background-lower-left {
+  background-repeat: no-repeat;
+  background-position: 10% 90%;
+}
+
+.background-full-height {
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.background-full-width {
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.background-contain {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.background-cover {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.wargames {
+  background-image: url(img/wargames-terminal.jpg);
+}
+
+.dumbterminal {
+  background-image: url(img/att_unix_pc.jpg);
+}
+
+.caveat {
+  background-image: url(img/caveat.jpg);
+}
+
+.computer-cat {
+  background-image: url(img/computer-cat.jpg);
+}
+
+.penguin {
+  background-image: -webkit-image-set( url(img/penguin.png) 1x, url(img/penguin@2x.png) 2x);
+}
+
+.hljs-default .hljs {
+  background: #f2f2f2;
+  border-radius: 8px;
+}
+
+.remark-code, .remark-inline-code .monospace {
+  font-family: 'Source Code Pro', 'Ubuntu Mono';
+  text-align:  left !important;
+  font-size: 18pt;
+}
+
+.manual-inline-code {
+  display: inline-block;
+  background: #232323;
+  color: #e6e1dc;
+  padding-left:  1em !important;
+  padding-right:  1em !important;
+  border-radius: 8px;
+}
+
+code.hljs, code.remark-code {
+  display: block;
+  background: #232323;
+  color: #e6e1dc;
+  padding: 1.25em !important;
+  border-radius: 8px;
+}
+
+.remark-container {
+  background-color: #000;
+}
+
+.remark-notes, .remark-notes-preview {
+  /* font-size: 1.1em; */
+}
+
+.remark-notes .remark-inline-code, .remark-notes-preview .remark-inline-code {
+  font-size: inherit;
+}
+
+.remark-slide-content {
+  background-color: #fff;
+  border: none;
+  box-shadow: none;
+  font-size: 35px;
+}
+
+.remark-slide-scaler {
+  box-shadow: none;
+}
+
+.remark-slide-number {
+  position:  absolute;
+  right: 10pt;
+  bottom: 10pt;
+  z-index: 10;
+}
+
+.tabbycats {
+  bottom: 1em;
+  color: #d1e2f8;
+  font-family: "Platform Web";
+  font-size: 0.60em;
+  font-weight: 300;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  text-align: center;
+  vertical-align: middle !important;
+  width: 100%;
+}
+
+.tabbycats-bold {
+  font-family: "Platform Web";
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .5px;
+  text-decoration: none;
+  display: inline-block
+}
