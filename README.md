@@ -10,7 +10,7 @@ A long-ish lightning talk or short-ish featured talk, given at [Donut.js](https:
 
 ## The slides!
 
-The slides are [available here](http://mckern.github.io/bash101_dotfiles). The deck responds to all of the standard [Remark](http://remarkjs.com/) keyboard shortcuts (`&larr;` is back, `&rarr;` is forward, `P` will show presenter notes) but the interactive terminal has been removed.
+The slides are [available here](http://mckern.github.io/bash101_dotfiles). The deck responds to all of the standard [Remark](http://remarkjs.com/) keyboard shortcuts (`←` is back, `→` is forward, `P` will show presenter notes) but the interactive terminal has been removed.
 
 ## The video!
 
